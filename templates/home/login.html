@@ -1,0 +1,125 @@
+{% extends 'basic.html' %}
+{% block title %}
+Login
+{% endblock  %}
+
+{% block Login %}
+active
+{% endblock Login %}
+{% block body %}
+{% load crispy_forms_tags %}
+<div class="col-md-6 offset-md-3">
+<div class="container">
+    {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+
+    {% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+    {% endif %}
+    <form method="post" action="{% url 'home:login' %}">
+        {% csrf_token %}
+        <h1>Login</h1>
+        <div class="textbox">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            {{ form.username.label_tag }}
+            {{ form.username.help_text }}
+
+            {{ form.username }}
+        </div>
+        <div class="textbox">
+            <i class="fa fa-lock" aria-hidden="true"></i>
+            {{ form.password.label_tag }}
+            {{ form.password }}
+        </div>
+        {% comment %} <input type="submit" value="login"> {% endcomment %}
+        <button class="btn btn-primary" type="submit" value="submit">Login</button>
+        {% comment %} <input type="hidden" name="next" value="{{ next }}"> {% endcomment %}
+    </form>
+    <p>
+        {% comment %} <a href="{% url 'password_reset' %}">Reset-Password</a>&nbsp;&nbsp;
+        <a href="{% url 'signup' %}">Create-Account</a> {% endcomment %}
+    </p>
+</div>
+</div>
+{% endblock %}
+{% block css %}
+
+    @import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+
+.container{
+    width: 550px;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate (-50%, -50%);
+    color: white;
+}
+.conatiner h1{
+float: left;
+font-size: 40px;
+border-bottom: 6px solid #4caf50;
+margin-bottom: 50px;
+padding: 13px 0;
+}
+.textbox{
+width:100%;
+overflow: hidden;
+font-size: 20px;
+padding: 8px 0;
+margin: 8px 0;
+border-bottom: 1px solid #4caf50;
+color:white;
+}
+.textbox i{
+width: 40px;
+float: left;
+text-align: center;
+}
+.textbox label{
+border: none;
+outline:none;
+background:none;
+color:white;
+width:100%;
+float:left;
+text-align:left;
+margin:0 10px;
+font-size: 18px;
+}
+.textbox input{
+width: 100%;
+border: none;
+outline:none;
+background:none;
+color:white;
+float:left;
+margin:0 10px;
+font-size: 18px;
+}
+.btn{
+width:100%;
+background:none;
+border: 2px solid #4caf50;
+color: white;
+padding: 5px;
+font-size: 18px;
+cursor: pointer;
+margin: 12px 0;
+}
+.col-md-6 a{
+width:100px;
+background:none;
+color:solid #282356;
+font-size: 18px;
+cursor: pointer;
+margin: 12px 0;
+text-align: center;
+}
+
+{% endblock  %}

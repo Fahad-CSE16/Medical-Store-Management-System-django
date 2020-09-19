@@ -1,0 +1,6 @@
+*.pyc
+*.jpg
+*.png
+__pycache__/
+db.sqlite3
+*cpython-37.pyc
