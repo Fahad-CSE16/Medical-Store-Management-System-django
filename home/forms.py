@@ -11,9 +11,11 @@ class StockForm(ModelForm):
         model = Stock
         fields = '__all__'
 
-class FormForm(forms.Form):
-    name= forms.CharField(max_length=200)
+class FormForm(ModelForm):
     company = forms.CharField(required=True)
+    class Meta:
+        model = Product
+        fields= '__all__'
     def __init__(self, *args, **kwargs):
       _company_list = kwargs.pop('data_list', None)
       super(FormForm, self).__init__(*args, **kwargs)

@@ -63,7 +63,7 @@ def product_create(request):
             if  subchecks:
                 messages.error(request, 'Alreay this product has included to the list.!')
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-            Product.objects.create(name=name, company=company)
+            form.save()
             messages.success(request, 'Successfully added to the list.!')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     else:
