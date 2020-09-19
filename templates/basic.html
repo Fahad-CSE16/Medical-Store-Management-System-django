@@ -107,11 +107,11 @@ background: none;
 <body>
 <div class="menu-bar">
         <ul>
-            <li><a href="/profile/"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
             <li><a href=""><i class="fa fa-user"></i>View</a>
                 <div class="sub-menu-1">
                     <ul>
-                        <li><a href="/posts/viewpost/">Tuition Posts</a></li>
+                        <li><a href="/products/">Products</a></li>
                         <li><a href="/tolet/viewtolet/">To-let Posts</a></li>
                         <li><a href="/profile/addsubject/">Subjects List</a></li>
                         <li><a href="/profile/userlist/">Users List</a></li>
@@ -121,18 +121,13 @@ background: none;
             <li><a href=""><i class="fa fa-users"></i>Create</a>
                 <div class="sub-menu-1">
                     <ul>
-                        <li><a href="/posts/createpost/">Tuition Posts</a></li>
+                        <li><a href="/create/">Stock</a></li>
                         <li><a href="/tolet/posttolet/">To-let Posts</a></li>
                     </ul>
                 </div>
             </li>
-            <li>
-          <a href="/profile/contact/">Contact</a>
-        </li>
-
-        <li>
-          <a href="/profile/about_us/">About</a>
-        </li>
+            {% comment %} <li>          <a href="/profile/contact/">Contact</a>    </li>
+        <li>          <a href="/profile/about_us/">About</a>        </li> {% endcomment %}
         {% if user.is_authenticated %}
             <li><a href=""><i class="fa fa-users"></i>{{request.user}}</a>
                 <div class="sub-menu-1">

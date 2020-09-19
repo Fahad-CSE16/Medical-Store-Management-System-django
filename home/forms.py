@@ -6,6 +6,9 @@ class ProductForm(ModelForm):
     class Meta:
         model = Product
         fields = ('name',)
+class QtyForm(forms.Form):
+    value = forms.IntegerField()
+    
 class FormForm(ModelForm):
     company = forms.CharField(required=True)
     mfg = forms.DateField(widget=forms.TextInput(attrs={'type': 'date', }))

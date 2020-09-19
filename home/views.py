@@ -70,7 +70,27 @@ def product_create(request):
         company_list = Company.objects.all()
         form = FormForm(data_list=company_list)
     return render(request, 'home/product.html', {'form':form})
-
+class ProductListView(generic.ListView):
+    model = Product
+    template_name = 'home/product_list.html'
+    context_object_name = 'products'
+    queryset = Product.objects.all().order_by('name')
+class ProductDeleteView(generic.DeleteView):
+    model = Product
+    template_name = 'home/delete.html'
+    success_url = reverse_lazy('home:product-list')
+def addqty(request,pk):
+    if request.method == "POST":
+        form = QtyForm(request.POST)
+        if form.is_valid():
+            p = Product.objects.get(id=pk)
+            p.qty = p.qty + form.cleaned_data['value']
+            p.save()
+            return redirect('home:product-list')
+    else:
+        form = QtyForm()
+    return render(request, 'home/addqty.html',{'form':form})
+        
 
 
 # class ProductCreate(generic.CreateView):

@@ -1,0 +1,128 @@
+{% extends 'basic.html' %}
+{% block body %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% if user.is_authenticated %}
+<div class="col-md-6 offset-md-3">
+    <fieldset>
+        <center><b>LIST OF STOCKS</b></center>
+
+        <CENTER>
+            <font color="red" size="2" face="arial"><b></b></font>
+        </CENTER><br /><br />
+        <font size="2" face="arial" color="BLACK"><b></b></font>
+        <p>
+        <table  border="1" width="100%"  bordercolor="#ffffff">
+            <tr bgcolor="WHITE" height="35px">
+
+                <table width="700" border="0" cellspacing="0" cellpadding="0">
+
+                    <tr>
+
+                        <td bgcolor="#0099FF">
+                            <div align="center"><strong><span>VIEW STOCK DETAILS </span></strong></div>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td align="center">
+                            <table width="100%" border="" cellspacing="" cellpadding="1">
+
+                                <tr>
+                                    <td width="200px"><strong>ID </strong></td>
+                                    <td width="200"><strong>Batch_no </strong></td>
+                                    <td width="200"><strong>Product_Name</strong></td>
+                                    <td width="auto"><strong>Company_Name </strong></td>
+                                    <td width="auto"><strong>Cost </strong></td>
+                                    <td width="auto"><strong>Selling Price </strong></td>
+                                    <td width="auto"><strong>Manufacturing Date </strong></td>
+                                    <td width="auto"><strong>Expiry_Date </strong></td>
+                                    <td width="auto"><strong>Supplier_Name </strong></td>
+                                    <td width="auto"><strong>Available Quantity </strong></td>
+                                    <td width="auto"><strong>ADD Quantity </strong></td>
+                                    <td width="auto"><strong>Delete </strong></td>
+
+
+                                </tr>
+                        </td>
+                    </tr>
+{% for p in products %}
+                    <tr>
+                        <td>{{p.id}}</td>
+                        <td>{{p.batch_no}}</td>
+                        <td>{{p.name}}</td>
+                        <td>{{p.company}}</td>
+                        <td>{{p.cost}}</td>
+                        <td>{{p.selling_price}}</td>
+                        <td>{{p.mfg}}</td>
+                        <td>{{p.exp}}</td>
+                        <td>{{p.supplier}}</td>
+                        <td>{{p.qty}}</td>
+
+                        <td> <a href="{% url 'home:add' pk=p.id %}" >Add Quantity</a></td>
+                        <td> <a href="{% url 'home:delete' pk=p.id %}">Delete</a></td>
+{% endfor %}
+                </table>
+
+                </p>
+
+                <?php
+
+
+?>
+        </table>
+        </tbody>
+    </fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+{% else %}
+<h2>Please Log in to Create a Post</h2>
+{% endif %}
+{% endblock body %}
+{% block css %}
+textarea.form-control {
+height: auto;
+width:100%;
+color:white;
+background: none;
+}
+.col-md-6{
+color:white;
+}
+
+{% endblock  %}

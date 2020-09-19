@@ -1,0 +1,39 @@
+{% extends 'basic.html' %}
+<center><img src="images/green_icon.png" width="80" height="80"></center>'; echo '<br/>
+	<center><font face="aparajita" size="4" color="black"> MEDICINE STOCK CENTERE</font></center>'; echo '<br/>
+	<center><font face="aparajita" size="5" color="black">CUSTOMER PURCHASE BILL</font></center>'; echo '<br/>
+
+	
+	<center>';
+	<table>';
+	
+	<tr><td><font face="aparajita" size="4" color="#111111">Bill number</font></td>
+	<td><font face="aparajita" size="4" color="#111111">:&nbsp;&nbsp;&nbsp;'; echo $s_id_max; echo '</font></td></tr>
+	
+	<tr><td><font face="aparajita" size="4" color="#111111">Name of the Purchase product</font></td>
+	<td><font face="aparajita" size="4" color="#111111">:&nbsp;&nbsp;&nbsp;'; echo $product_name; echo '</font></td></tr>
+	 
+	<tr><td><font face="aparajita" size="4" color="#111111">Quantity</font></td>'
+	<td><font face="aparajita" size="4" color="#111111">:&nbsp;&nbsp;&nbsp;';	echo $add_quantity; echo '</font></td></tr>
+	
+	<tr><td><font face="aparajita" size="4" color="#111111">Rate per Item</font></td>
+	<td><font face="aparajita" size="4" color="#111111">:&nbsp;&nbsp;&nbsp;'; echo $cost; echo '</font></td></tr>
+	
+	<tr><td><font face="aparajita" size="4" color="#111111">Name of customer</font></td>
+	<td><font face="aparajita" size="4" color="#111111">:&nbsp;&nbsp;&nbsp;'; echo $customer_name; echo '</font></td></tr>
+	
+	
+	
+	<tr><td><font face="aparajita" size="4" color="#111111">Contact no of customer</font></td>
+	<td><font face="aparajita" size="4" color="#111111">:&nbsp;&nbsp;&nbsp;'; echo $cus_contact_no; echo '</font></td></tr>
+	
+	
+	<tr><td><font face="aparajita" size="4" color="#111111">Total MRP</font></td>
+	<td><font face="aparajita" size="4" color="#111111">:&nbsp;&nbsp;&nbsp;'; echo $subtotal; echo '</font></td></tr>
+	
+	
+	</table></center>
+	
+
+	echo '<br/><br/><br/><br/><br/><font face="aparajita" size="4" color="#111111">
+	<center>N.B.: PLEASE KEEP THE RECEIPT....................</center></font><br>';
