@@ -1,18 +1,15 @@
 from django import forms
 from .fields import ListTextWidget
-from .models import Company, Product, Sales, Stock, Supplier
+from .models import Company, Product, Sales, Supplier
 from django.forms import ModelForm, DateInput
 class ProductForm(ModelForm):
     class Meta:
         model = Product
         fields = ('name',)
-class StockForm(ModelForm):
-    class Meta:
-        model = Stock
-        fields = '__all__'
-
 class FormForm(ModelForm):
     company = forms.CharField(required=True)
+    mfg = forms.DateField(widget=forms.TextInput(attrs={'type': 'date', }))
+    exp = forms.DateField(widget=forms.TextInput(attrs={'type': 'date', }))
     class Meta:
         model = Product
         fields= '__all__'

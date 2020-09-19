@@ -14,8 +14,8 @@ from math import ceil
 from django.views import generic, View
 from django.views.generic.base import RedirectView
 from django.urls import reverse_lazy
-from .models import Company, Product, Stock, Sales, Supplier
-from .forms import ProductForm,StockForm,FormForm
+from .models import Company, Product, Sales, Supplier
+from .forms import *
 
 # from tolet.models import Post, PostFile
 # from person.models import Subject, District, Classes
@@ -59,7 +59,7 @@ def product_create(request):
             subcheck = Company.objects.filter(name=company)
             if  not subcheck:
                 Company.objects.create(name=company)
-            subchecks = Product.objects.filter(name=name, company=company)
+            subchecks = Product.objects.filter(name=name)
             if  subchecks:
                 messages.error(request, 'Alreay this product has included to the list.!')
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
@@ -73,18 +73,12 @@ def product_create(request):
 
 
 
-
-
-
 # class ProductCreate(generic.CreateView):
 #     model = Product
-#     form_class = ProductForm
-#     # success_url = 'home:homes'
+#     form_class = FormForm
 #     template_name = 'home/product.html'
-
 #     def form_valid(self, form):
 #         name = form.cleaned_data['name']
-#         # product=form.cleaned_data['product']
 #         company = form.cleaned_data['company']
 #         subcheck = Company.objects.filter(name=company)
 #         if not subcheck:
@@ -98,4 +92,4 @@ def product_create(request):
 #         return super(ProductCreate, self).form_valid(form)
 
 #     def get_success_url(self):
-#         return reverse_lazy('home:homes')
+#         return reverse_lazy('home:create')
