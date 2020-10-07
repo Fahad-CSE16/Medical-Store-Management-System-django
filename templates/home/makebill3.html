@@ -1,0 +1,59 @@
+{% extends 'basic.html' %}
+{% block  js %}
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+        var numberIncr = 1; // used to increment the name for the inputs
+
+        function addInput() {
+            $('#inputs').append($('<input class="comment" name="name'+numberIncr+'" /> <input class="comment" name="val'+numberIncr+'" /> <br>'));
+            numberIncr++;
+        }
+
+        $('form.commentForm').on('submit', function(event) {
+
+            // adding rules for inputs with class 'comment'
+            $('input.comment').each(function() {
+                $(this).rules("add", 
+                    {
+                        required: true
+                    })
+            });            
+
+            // prevent default submit action         
+            event.preventDefault();
+
+            // test if form is valid 
+            if($('form.commentForm').validate().form()) {
+                console.log("validates");
+            } else {
+                console.log("does not validate");
+            }
+        })
+
+        // set handler for addInput button click
+        $("#addInput").on('click', addInput);
+
+        // initialize the validator
+        $('form.commentForm').validate();
+
+   });
+
+</script>
+{% endblock  %}
+{% block body %}
+<form class="commentForm" method="post" >
+{% csrf_token %}
+    <div>
+    <input type="button" value="Add More" id="addInput" />
+        <p id="inputs">    
+            <input class="comment" name="name0" />
+            <input class="comment" name="val0" />
+            <br>
+        </p>
+    <input class="submit" type="submit" value="Submit" />
+    </div>
+</form>
+{% endblock  %}

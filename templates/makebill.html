@@ -1,0 +1,95 @@
+{% extends 'basic.html' %} {% block body %}{% if product %}
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="text/javascript">
+    var product = {{ product| safe }};
+</script>
+<div id="app">
+    {% comment %} [[message]] {% endcomment %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-9">
+               
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Products</label>
+                    </div>
+                    <select name="LeaveType" v-model="key" class="custom-select" id="inputGroupSelect01" @change="addToCart($event)">
+                        <option></option>
+                        <option v-for="(person,index) in product" :key="index" 
+                            :value="person">[[person.name]]
+
+                        </option>
+                    </select>
+                    <button > add </button>
+
+                </div>
+            {% comment %} <ul>
+                <li v-for="(p,index) in product" :key="index">[[p.name]]- [[p.cost]]tk <button @click="addToCart(p)">Add TO cart</button></li>
+            </ul> {% endcomment %}
+
+                
+            </div>
+            <div class="col-sm-3">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="item-name">Name</span>
+                        <span class="item-price float-right">Price</span>
+                    </li>
+                    <hr />
+                    <li v-for="(item, index) in cart" :key="index" class="list-group-item">
+                        <span class="float-right">
+                            <button @click="removeItem" class="btn btn-sm btn-danger">
+                                -
+                            </button></span>
+                        <span class="item-name">[[item.name]]</span>
+                        <span class="item-price float-right">$[[item.cost]] </span>
+                        <input style="color:black; background:blue;" placeholder="Quantity?" type="text" v-model="item.price" /> 
+                    </li>
+                    <hr />
+
+                    <li class="list-group-item">
+                        <span class="item-name">Total</span>
+                        <span class="item-price float-right" >[[totalPrice]]Tk</span>
+                    </li>
+                    <hr />
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var app = new Vue({
+        delimiters: ["[[", "]]"],
+        el: "#app",
+        data: {
+            message: "Hello Vue!",
+            product: product,
+            items: [],
+            cart: [],
+            key:"",
+            qty:0,
+        },
+        
+        computed: {
+            totalPrice() {
+                var total = 0.0;
+                this.cart.forEach((item) => {
+                    total += parseFloat(item.cost);
+                });
+                return total;
+            },
+        },
+        methods: {
+            removeItem(index) {
+                this.cart.splice(index, 1);
+            },
+            addToCart(event) {
+                this.cart.push(this.key);
+            
+            },
+        },
+    });
+</script>
+{% else %}
+<p>No items available.</p>
+{% endif %} {% endblock %}

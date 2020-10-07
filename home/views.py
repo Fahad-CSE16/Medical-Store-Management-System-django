@@ -1,3 +1,9 @@
+import json
+import random
+from django.shortcuts import render
+from django.template import RequestContext
+from django.template import loader
+from django.forms import formset_factory
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash, get_user_model
@@ -8,7 +14,7 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
-from django.views.generic import View,TemplateView
+from django.views.generic import View, TemplateView
 import time
 from math import ceil
 from django.views import generic, View
@@ -23,13 +29,17 @@ from .forms import *
 # from person.models import UserProfile, Contact
 # from posts.templatetags import extras
 
+
 class HomeView(TemplateView):
     template_name = "home/home.html"
+
 
 def logoutuser(request):
     logout(request)
     messages.success(request, "Successfully logged out!")
     return redirect('home:homes')
+
+
 def handleLogin(request):
     if request.method == 'POST':
         form = AuthenticationForm(request=request, data=request.POST)
@@ -50,18 +60,20 @@ def handleLogin(request):
                   template_name="home/login.html",
                   context={"form": form})
 
+
 def product_create(request):
     if request.method == "POST":
         form = FormForm(request.POST)
-        if  form.is_valid():
+        if form.is_valid():
             name = form.cleaned_data['name']
             company = form.cleaned_data['company']
             subcheck = Company.objects.filter(name=company)
-            if  not subcheck:
+            if not subcheck:
                 Company.objects.create(name=company)
             subchecks = Product.objects.filter(name=name)
-            if  subchecks:
-                messages.error(request, 'Alreay this product has included to the list.!')
+            if subchecks:
+                messages.error(
+                    request, 'Alreay this product has included to the list.!')
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             form.save()
             messages.success(request, 'Successfully added to the list.!')
@@ -69,17 +81,23 @@ def product_create(request):
     else:
         company_list = Company.objects.all()
         form = FormForm(data_list=company_list)
-    return render(request, 'home/product.html', {'form':form})
+    return render(request, 'home/product.html', {'form': form})
+
+
 class ProductListView(generic.ListView):
     model = Product
     template_name = 'home/product_list.html'
     context_object_name = 'products'
     queryset = Product.objects.all().order_by('name')
+
+
 class ProductDeleteView(generic.DeleteView):
     model = Product
     template_name = 'home/delete.html'
     success_url = reverse_lazy('home:product-list')
-def addqty(request,pk):
+
+
+def addqty(request, pk):
     if request.method == "POST":
         form = QtyForm(request.POST)
         if form.is_valid():
@@ -89,8 +107,59 @@ def addqty(request,pk):
             return redirect('home:product-list')
     else:
         form = QtyForm()
-    return render(request, 'home/addqty.html',{'form':form})
-        
+    return render(request, 'home/addqty.html', {'form': form})
+
+
+def some_view(request):
+    if request.method == 'POST':
+        if request.POST['action'] == "+":
+            extra = int(float(request.POST['extra'])) + 1
+            form = QtyForm(initial=request.POST)
+            formset = formset_factory(FormsetForm, extra=extra)
+        else:
+            extra = int(float(request.POST['extra']))
+            form = QtyForm(request.POST)
+            formset = formset_factory(FormsetForm, extra=extra)(request.POST)
+
+            if form.is_valid() and formset.is_valid():
+                if request.POST['action'] == "Create":
+                    for form_c in formset:
+                        if not form_c.cleaned_data['delete']:
+                            pass
+                elif request.POST['action'] == "Edit":
+                    for form_c in formset:
+                        if form_c.cleaned_data['delete']:
+                            pass
+                        else:
+                            pass
+                return HttpResponseRedirect('abm_usuarios')
+    form = QtyForm()
+    extra = 1
+    formset = formset_factory(FormsetForm, extra=extra)
+
+    return render(request, 'home/makebill4.html', {'formset': formset, 'form': form})
+
+# def makebill(request):
+#     if request.method == "POST":
+#         pass
+#     #     q_form = QtyForm(request.POST)
+#     #     form = BillForm(request.POST)
+#     #     if q_form.is_valid() and form.is_valid():
+#     #         p = form.cleaned_data['name']
+#     #         q = q_form.cleaned_data['value']
+#     #         print(p,q)
+#     # data = Product.objects.all().order_by('name')
+#     # q_form=QtyForm()
+#     # form = BillForm(data_list=data)
+#     return render(request, 'home/makebill3.html')
+
+
+def makebill(request):
+    product = Product.objects.all().order_by('name')
+    product_list = list(product.values('name', 'cost'))
+    context = {}
+    context["product"] = json.dumps(product_list)
+    return render(request, 'makebill.html', context)
 
 
 # class ProductCreate(generic.CreateView):

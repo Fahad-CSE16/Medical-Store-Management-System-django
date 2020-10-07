@@ -13,16 +13,7 @@
   <title>{% block title %} {% endblock %}</title>
   <link  rel='stylesheet' href="/static/bang/style.css">
   <style>
-  body {
-      margin: 0;
-      padding: 0;
-      font-family: sens-serif;
-      height: 100vh;
-      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/media/images/map.jpg');
-      background-size: cover;
-      background-attachment: fixed;
-      background-position: top;
-    }
+ 
   *{
     padding: 0;
     margin: 0;
@@ -104,7 +95,10 @@ background: none;
   </style>
 </head>
 
-<body>
+<body style="background:  linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('/static/images/ban1.jpg');
+background-size: cover;
+      background-attachment: fixed;
+      background-position: top;">
 <div class="menu-bar">
         <ul>
             <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
@@ -182,7 +176,6 @@ background: none;
   {% endfor %}
   <br>
   {% block body %} {% endblock %}
-  {% block js %} {% endblock %}
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
@@ -193,6 +186,12 @@ background: none;
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
     integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
     crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+			  ></script>
+  <script>
+  {% block js %} {% endblock %}
+  
+  </script>
 </body>
 
 </html>
