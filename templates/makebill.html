@@ -6,8 +6,9 @@
 <div id="app">
     {% comment %} [[message]] {% endcomment %}
     <div class="container-fluid">
+    <h1 class=" text-center">Make a Bill</h1>
         <div class="row">
-            <div class="col-sm-9">
+            <div class="col-sm-6">
                
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -20,7 +21,7 @@
 
                         </option>
                     </select>
-                    <button > add </button>
+                    
 
                 </div>
             {% comment %} <ul>
@@ -29,7 +30,7 @@
 
                 
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-6">
                 <ul class="list-group">
                     <li class="list-group-item">
                         <span class="item-name">Name</span>
@@ -43,7 +44,7 @@
                             </button></span>
                         <span class="item-name">[[item.name]]</span>
                         <span class="item-price float-right">$[[item.cost]] </span>
-                        <input style="color:black; background:blue;" placeholder="Quantity?" type="text" v-model="item.price" /> 
+                       <span class="float-right"> <input  style="color:black; background:white;" placeholder="Quantity?" type="text" v-model="item.qty" /> </span>
                     </li>
                     <hr />
 
@@ -74,7 +75,7 @@
             totalPrice() {
                 var total = 0.0;
                 this.cart.forEach((item) => {
-                    total += parseFloat(item.cost);
+                    total += parseFloat(item.cost*item.qty);
                 });
                 return total;
             },
@@ -84,7 +85,11 @@
                 this.cart.splice(index, 1);
             },
             addToCart(event) {
-                this.cart.push(this.key);
+                this.cart.push({
+        name: this.key.name,
+        cost: this.key.cost,
+        qty:1,
+      });
             
             },
         },
