@@ -7,6 +7,7 @@ urlpatterns = [
     path('', HomeView.as_view(), name='homes'),
     path('about/', HomeView.as_view(template_name='home/about_us.html'), name='about'),
     path('logout/', logoutuser, name='logout'),
+    path('search/', search, name='search'),
     path('login/', handleLogin, name='login'),
     path('create/', product_create, name='create'),
     path('delete/<int:id>/', delete, name='delete'),

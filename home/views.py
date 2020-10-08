@@ -22,7 +22,17 @@ from django.views.generic.base import RedirectView
 from django.urls import reverse_lazy
 from .models import Company, Product, Sales, Supplier,Contact
 from .forms import *
+from django.db.models import Q
 
+def search(request):
+    query = request.POST.get('q', '')
+    if query:
+        queryset = (Q(name__icontains=query)) | (Q(company__icontains=query)) | (Q(batch_no__icontains=query))
+        products = Product.objects.filter(queryset).distinct()
+    else:
+       products = []
+    
+    return render(request, "home/product_list.html", {'products': products})
 
 class HomeView(TemplateView):
     template_name = "home/home.html"

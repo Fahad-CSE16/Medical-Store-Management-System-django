@@ -34,7 +34,7 @@
       background-attachment: fixed;
       background-position: top;
     ">
-    <h3 class="text-center"> MEDICAL STORE MANAGEMENT SYSTEM</h3>
+    <h1 class="text-center"> MEDICAL STORE MANAGEMENT SYSTEM</h1>
     <nav class="navbar navbar-expand-lg navbar-light" style="background: none; color: white; text-color: white">
         {% comment %} <a class="navbar-brand" style="color: white; text-color: white" href="/profile/">DesireBD</a>
         {% endcomment %}
@@ -44,7 +44,7 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ">
+            <ul class="nav justify-content-center">
                 <li class="nav-item {% block blogactive %} {% endblock blogactive %}">
                     <a class="nav-link" href="/">Home</a>
                 </li>
@@ -66,7 +66,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Create
+                        ADD
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background: none; color: white">
                         <a class="dropdown-item" style="color: #26f1fb" href="/create/">Stock</a>
@@ -74,9 +74,9 @@
                         <a class="dropdown-item" style="color: #26f1fb" href="/createsupplier/">Supplier</a>
                     </div>
                 </li>
-                <li class="nav-item {% block contactactive %} {% endblock contactactive %}">
+                {% comment %} <li class="nav-item {% block contactactive %} {% endblock contactactive %}">
                     <a class="nav-link" href="/contact/">Contact</a>
-                </li>
+                </li> {% endcomment %}
 
                 <li class="nav-item {% block aboutactive %} {% endblock aboutactive %}">
                     <a class="nav-link" href="/about/">About</a>
@@ -87,7 +87,7 @@
 
                 {% if user.is_authenticated %}
                 <ul class="navbar-nav">
-                    <form method="post" action="/posts/search/" class="form-inline my-2 my-lg-0">
+                    <form method="post" action="/search/" class="form-inline my-2 my-lg-0">
                         {% csrf_token %}
                         <li>
                             <input class="form-control mr-sm-2" style="background: none; color: white" type="search"
@@ -106,9 +106,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown"
                             style="background: none; color: white">
-                            <a class="dropdown-item" style="color: #26f1fb" href="/profile/userprofile/">Profile</a>
-                            <a class="dropdown-item" style="color: #26f1fb"
-                                href="/profile/notification/">Notifications</a>
+                            
                             <a class="dropdown-item" style="color: #26f1fb" href="{% url 'home:logout' %}">Logout</a>
                         </div>
                     </li>
