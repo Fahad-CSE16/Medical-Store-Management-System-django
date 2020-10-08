@@ -46,7 +46,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ">
                 <li class="nav-item {% block blogactive %} {% endblock blogactive %}">
-                    <a class="nav-link" href="/profile/">Home</a>
+                    <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -56,9 +56,9 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown"
                         style="background: none; text-color: #26f1fb">
                         <a class="dropdown-item" style="color: #26f1fb" href="/products/">Products</a>
-                        <a class="dropdown-item" style="color: #26f1fb" href="/posts/createpost/">Customer List</a>
-                        <a class="dropdown-item" style="color: #26f1fb" href="/profile/addsubject/">Company List</a>
-                        <a class="dropdown-item" style="color: #26f1fb" href="/profile/userlist/">Supplier List</a>
+                        <a class="dropdown-item" style="color: #26f1fb" href="/sales/">Sales List</a>
+                        <a class="dropdown-item" style="color: #26f1fb" href="/company/">Company List</a>
+                        <a class="dropdown-item" style="color: #26f1fb" href="/suppliers/">Supplier List</a>
                     </div>
                 </li>
                 
@@ -71,18 +71,17 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background: none; color: white">
                         <a class="dropdown-item" style="color: #26f1fb" href="/create/">Stock</a>
                         <a class="dropdown-item" style="color: #26f1fb" href="/makebill/">Bill</a>
+                        <a class="dropdown-item" style="color: #26f1fb" href="/createsupplier/">Supplier</a>
                     </div>
                 </li>
                 <li class="nav-item {% block contactactive %} {% endblock contactactive %}">
-                    <a class="nav-link" href="/profile/contact/">Contact</a>
+                    <a class="nav-link" href="/contact/">Contact</a>
                 </li>
 
                 <li class="nav-item {% block aboutactive %} {% endblock aboutactive %}">
-                    <a class="nav-link" href="/profile/about_us/">About</a>
+                    <a class="nav-link" href="/about/">About</a>
                 </li>
-                <li class="nav-item {% block work %} {% endblock work %}">
-                    <a href="/works/" class="nav-link">How Works?</a>
-                </li>
+   
 
                 {% comment %} <div>{% now "SHORT_DATETIME_FORMAT" %}</div> {% endcomment %}
 

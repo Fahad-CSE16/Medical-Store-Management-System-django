@@ -7,6 +7,8 @@ class Company(models.Model):
         return self.name
 class Supplier(models.Model):
     name = models.CharField(max_length=200)
+    phone=models.CharField(max_length=17,default='')
+    email=models.EmailField(default='')
     def __str__(self):
         return self.name 
 class Product(models.Model):
@@ -33,4 +35,11 @@ class Sales(models.Model):
     def __str__(self):
         return self.name+ "-" + str(self.amount) + "TK"
     
-
+class Contact(models.Model):
+    name=models.CharField(max_length=100)
+    phone=models.CharField(max_length=17)
+    email=models.EmailField()
+    details=models.TextField()
+    def __str__(self):
+        return self.name
+    

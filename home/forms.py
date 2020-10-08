@@ -1,6 +1,6 @@
 from django import forms
 from .fields import ListTextWidget
-from .models import Company, Product, Sales, Supplier
+from .models import Company, Product, Sales, Supplier,Contact
 from django.forms import ModelForm, DateInput
 
 
@@ -41,4 +41,12 @@ class ProductForm(ModelForm):
     class Meta:
         model = Product
         fields= ('mfg','exp','cost','selling_price','qty','supplier')
+class SupplierForm(ModelForm):
+    class Meta:
+        model = Supplier
+        fields= '__all__'
+class ContactForm(ModelForm):
+    class Meta:
+        model = Contact
+        fields= '__all__'
    

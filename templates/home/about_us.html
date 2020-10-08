@@ -1,0 +1,52 @@
+{% extends 'basic.html' %}
+
+{% block title%} About {% endblock %}
+{% block aboutactive %} active{% endblock aboutactive %}
+{% block body %}
+
+<div class="col-md-6 offset-md-3">
+
+            <h1 class="bd-title" id="content">About</h1>
+            <p class="bd-lead">This project is made for Medical Store Stock Management System. </p>
+
+           <h1>Team</h1>
+            <h4>Backend:</h4>
+            <p> Md Fahad Hossain </p>
+            <P>GitHub:<a href="https://github.com/Fahad-CSE16">Fahad-CSE16</a></P>
+            <P>Linkedin:<a href="https://www.linkedin.com/in/fahad-cse16/">Fahad-CSE16</a></P>
+            <P>Email:<a href="">mdfahadhossain71@gmail.com</a></P>
+            <h4>Frontend:</h4>
+            <p> Md Fahad Hossain </p>
+            <P>GitHub:<a href="https://github.com/Fahad-CSE16"> Fahad-CSE16</a></P>
+            <P>Linkedin:<a href="https://www.linkedin.com/in/fahad-cse16/"> Fahad-CSE16</a></P>
+            <h1>Technology :</h1>
+            <h4>Backend:</h4> <P>Python Django-Framework, Django-Rest-Framework.</P>
+            <h4>Frontend:</h4><p> HTML5, CSS, Javascript, Bootstrap4.</P>
+            <h2>Contact :</h2>
+            <P>Phone:+8801701036134</P>
+            <p>Phone:+8800000000000</P>
+            You can also Contact with admin by clicking <a href="/contact/">Here</a>
+
+
+
+            
+
+
+</div>
+{% endblock %}
+{% block css %}
+p{
+text-align:justify;
+line-height:25px;
+{% comment %} text-shadow: 1px 2px blue; {% endcomment %}
+text-indent:30px;
+padding-left:30px;
+text-transformation: capitalize;
+}
+p a{
+    color:blue;
+}
+a:hover{
+    border-bottom:2px solid red;
+}
+{% endblock  %}

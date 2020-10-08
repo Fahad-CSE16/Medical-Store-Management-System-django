@@ -20,7 +20,7 @@ from math import ceil
 from django.views import generic, View
 from django.views.generic.base import RedirectView
 from django.urls import reverse_lazy
-from .models import Company, Product, Sales, Supplier
+from .models import Company, Product, Sales, Supplier,Contact
 from .forms import *
 
 
@@ -83,6 +83,21 @@ class ProductListView(generic.ListView):
     template_name = 'home/product_list.html'
     context_object_name = 'products'
     queryset = Product.objects.all().order_by('name')
+class CompanyListView(generic.ListView):
+    model = Company
+    template_name = 'home/company_list.html'
+    context_object_name = 'company'
+    queryset = Company.objects.all().order_by('name')
+class SupplierListView(generic.ListView):
+    model = Supplier
+    template_name = 'home/supplier_list.html'
+    context_object_name = 'supplier'
+    queryset = Supplier.objects.all().order_by('name')
+class SalesListView(generic.ListView):
+    model = Sales
+    template_name = 'home/sales_list.html'
+    context_object_name = 'sales'
+    queryset = Sales.objects.all().order_by('name')
 
 def delete(request,id):
     prod=Product.objects.filter(id=id)
@@ -96,8 +111,6 @@ def addqty(request, pk):
         p.qty = p.qty + int(qty)
         p.save()
     return redirect('home:product-list')
-
-
 def makebill(request):
     if request.method == "POST":
         cart = request.POST.get('cart')
@@ -120,7 +133,6 @@ def makebill(request):
         total = price
     product = Product.objects.all().order_by('name')
     product_list = list(product.values('name', 'cost'))
-
     context = {}
     context["product"] = json.dumps(product_list)
     try:
@@ -135,4 +147,23 @@ class EditProdView(generic.UpdateView):
     template_name = 'home/product.html'
     def get_success_url(self):
         id = self.kwargs['pk']
+        return reverse_lazy('home:product-list')
+class EditSupplierView(generic.UpdateView):
+    model = Supplier
+    form_class = SupplierForm
+    template_name = 'home/addsupplier.html'
+    def get_success_url(self):
+        id = self.kwargs['pk']
+        return reverse_lazy('home:supplier-list')
+class CreateSupplierView(generic.CreateView):
+    model = Supplier
+    form_class = SupplierForm
+    template_name = 'home/addsupplier.html'
+    def get_success_url(self):
+        return reverse_lazy('home:supplier-list')
+class CreateContactView(generic.CreateView):
+    model = Contact
+    form_class = ContactForm
+    template_name = 'home/contact_us.html'
+    def get_success_url(self):
         return reverse_lazy('home:product-list')
