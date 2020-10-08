@@ -23,11 +23,14 @@ class Product(models.Model):
         ordering= ('name',)
     def __str__(self):
         return self.name
+from django.utils.timezone import now
 class Sales(models.Model):
     items_json = models.CharField(max_length=900)
     amount = models.IntegerField(default=0)
-    name=models.CharField(max_length=100)
+    name=models.CharField(max_length=100, default="")
     phone = models.CharField(max_length=100, default="")
+    time=models.DateTimeField(default=now)
     def __str__(self):
-        return self.name
+        return self.name+ "-" + str(self.amount) + "TK"
+    
 

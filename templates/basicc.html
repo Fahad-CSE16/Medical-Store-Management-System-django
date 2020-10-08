@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% load static %}
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
+  <title>{% block title %} {% endblock %}</title>
+  <link  rel='stylesheet' href="/static/bang/style.css">
+</head>
+
+<body style="background:  linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url('/static/images/ban1.jpg');
+background-size: cover;
+      background-attachment: fixed;
+      background-position: top;">
+<div class="menu-bar">
+        <ul>
+            <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href=""><i class="fa fa-user"></i>View</a>
+                <div class="sub-menu-1">
+                    <ul>
+                        <li><a href="/products/">Products</a></li>
+                        <li><a href="/tolet/viewtolet/">To-let Posts</a></li>
+                        <li><a href="/profile/addsubject/">Subjects List</a></li>
+                        <li><a href="/profile/userlist/">Users List</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href=""><i class="fa fa-users"></i>Create</a>
+                <div class="sub-menu-1">
+                    <ul>
+                        <li><a href="/create/">Stock</a></li>
+                        <li><a href="/tolet/posttolet/">To-let Posts</a></li>
+                    </ul>
+                </div>
+            </li>
+            {% comment %} <li>          <a href="/profile/contact/">Contact</a>    </li>
+        <li>          <a href="/profile/about_us/">About</a>        </li> {% endcomment %}
+        {% if user.is_authenticated %}
+            <li><a href=""><i class="fa fa-users"></i>{{request.user}}</a>
+                <div class="sub-menu-1">
+                    <ul>
+                        <li><a href="/profile/userprofile/">Profile</a></li>
+                        <li><a href="/profile/notification/">Notifications</a></li>
+                        <li><a href="{% url 'home:logout' %}">Logout</a></li>
+                    </ul>
+                </div>
+            </li>
+        <form method="GET" action="/posts/search/" class="form-inline my-2 my-lg-0">
+          {% csrf_token %}
+          <li>
+          <input class="in " type="search" placeholder="Search" aria-label="Search" name="q" id="search"></li>
+          <li><button class="btn  btn-sm" type="submit" value="{{ query|escape }}">Search</button></li>
+        </form>
+        <li>
+        <a href="">{% now "h:i A" as current_time %}
+    {{ current_time|center:"150"  }} {% now "D, F jS, Y" %}
+        </a>
+        </li>
+        </ul>
+    </div>
+        
+      </ul>
+      {% else %}
+
+      <li class=" {% block SignUp %}
+      {% endblock SignUp %} ">
+        {% comment %} <a href="{% url 'signup' %}">SignUp</a> {% endcomment %}
+      </li>
+      <li class=" {% block Login %}
+      {% endblock Login %} ">
+        <a href="{% url 'home:login' %}">Login</a>
+      </li></ul>
+      {% endif %}
+      
+
+    </div>
+      
+  </nav>
+ 
+</div>
+  
+  {% for message in messages  %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+    <strong></strong> {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+  <br>
+  {% block body %} {% endblock %}
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+			  ></script>
+  <script>
+  {% block js %} {% endblock %}
+  
+  </script>
+</body>
+
+</html>

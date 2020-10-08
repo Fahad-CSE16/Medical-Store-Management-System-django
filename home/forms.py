@@ -35,3 +35,10 @@ class FormForm(ModelForm):
       _company_list = kwargs.pop('data_list', None)
       super(FormForm, self).__init__(*args, **kwargs)
       self.fields['company'].widget = ListTextWidget(data_list=_company_list, name='company-list')
+class ProductForm(ModelForm):
+    mfg = forms.DateField(widget=forms.TextInput(attrs={'type': 'date', }))
+    exp = forms.DateField(widget=forms.TextInput(attrs={'type': 'date', }))
+    class Meta:
+        model = Product
+        fields= ('mfg','exp','cost','selling_price','qty','supplier')
+   

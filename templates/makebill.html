@@ -3,12 +3,19 @@
 <script type="text/javascript">
     var product = {{ product| safe }};
 </script>
+
 <div id="app">
     {% comment %} [[message]] {% endcomment %}
     <div class="container-fluid">
-    <h1 class=" text-center">Make a Bill</h1>
+    {% if total %}
+    <h3 class="text-center">Your Bill is Done. </h3>
+    <h3 class="text-center">Your Total= {{total}}Tk. </h3>
+    <h5 class="text-center">Make Another bill from below</h5>
+ 
+    {% endif %}
         <div class="row">
             <div class="col-sm-6">
+    <h3 class="text-center">Make a Bill</h3>
                
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -31,9 +38,12 @@
                 
             </div>
             <div class="col-sm-6">
+    <h3 class="text-center">Your Billing Cart</h3>
+
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <span class="item-name">Name</span>
+                        <span class="item-name">Name</span> -------------
+                        <span class="item-qty text-center">Quantity</span>
                         <span class="item-price float-right">Price</span>
                     </li>
                     <hr />
@@ -51,7 +61,24 @@
                     <li class="list-group-item">
                         <span class="item-name">Total</span>
                         <span class="item-price float-right" >[[totalPrice]]Tk</span>
-                    </li>
+                    </li  class="list-group-item">
+                    <form action="/makebill/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" :value="totalPrice" name="price" >
+                    <input type="hidden" :value="cartReturn" name="cart" >
+                    <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control"  name="name"
+                placeholder="Enter Customer Name" >
+            </div><div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="text" class="form-control"  name="phone"
+                placeholder="Enter Customer Phn Number" >
+            </div>
+                    
+                    <button class="btn btn-sm btn-primary" type="submit">Make Bill</button>
+                    </form>
+                    
                     <hr />
                 </ul>
             </div>
@@ -59,41 +86,44 @@
     </div>
 </div>
 <script>
-    var app = new Vue({
-        delimiters: ["[[", "]]"],
-        el: "#app",
-        data: {
-            message: "Hello Vue!",
-            product: product,
-            items: [],
-            cart: [],
-            key:"",
-            qty:0,
-        },
-        
-        computed: {
-            totalPrice() {
-                var total = 0.0;
-                this.cart.forEach((item) => {
-                    total += parseFloat(item.cost*item.qty);
-                });
-                return total;
-            },
-        },
-        methods: {
-            removeItem(index) {
-                this.cart.splice(index, 1);
-            },
-            addToCart(event) {
-                this.cart.push({
+var app = new Vue({
+  delimiters: ["[[", "]]"],
+  el: "#app",
+  data: {
+    message: "Hello Vue!",
+    product: product,
+    items: [],
+    cart: [],
+    key: "",
+    qty: 0,
+  },
+  computed: {
+    totalPrice() {
+      var total = 0.0;
+      this.cart.forEach((item) => {
+        total += parseFloat(item.cost * item.qty);
+      });
+      return total;
+    },
+    cartReturn() {
+      return JSON.stringify(this.cart);
+    },
+  },
+  methods: {
+    removeItem(index) {
+      this.cart.splice(index, 1);
+    },
+    addToCart(event) {
+      this.cart.push({
         name: this.key.name,
         cost: this.key.cost,
-        qty:1,
+        qty: 1,
       });
-            
-            },
-        },
-    });
+      console.log(this.cart);
+    },
+  },
+});
+// $('#cart').val(JSON.stringify(this.cart));
 </script>
 {% else %}
 <p>No items available.</p>

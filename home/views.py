@@ -23,12 +23,6 @@ from django.urls import reverse_lazy
 from .models import Company, Product, Sales, Supplier
 from .forms import *
 
-# from tolet.models import Post, PostFile
-# from person.models import Subject, District, Classes
-# from person.forms import ContactForm
-# from person.models import UserProfile, Contact
-# from posts.templatetags import extras
-
 
 class HomeView(TemplateView):
     template_name = "home/home.html"
@@ -90,95 +84,55 @@ class ProductListView(generic.ListView):
     context_object_name = 'products'
     queryset = Product.objects.all().order_by('name')
 
-
-class ProductDeleteView(generic.DeleteView):
-    model = Product
-    template_name = 'home/delete.html'
-    success_url = reverse_lazy('home:product-list')
-
+def delete(request,id):
+    prod=Product.objects.filter(id=id)
+    prod.delete()
+    return redirect('home:product-list')
 
 def addqty(request, pk):
     if request.method == "POST":
-        form = QtyForm(request.POST)
-        if form.is_valid():
-            p = Product.objects.get(id=pk)
-            p.qty = p.qty + form.cleaned_data['value']
-            p.save()
-            return redirect('home:product-list')
-    else:
-        form = QtyForm()
-    return render(request, 'home/addqty.html', {'form': form})
-
-
-def some_view(request):
-    if request.method == 'POST':
-        if request.POST['action'] == "+":
-            extra = int(float(request.POST['extra'])) + 1
-            form = QtyForm(initial=request.POST)
-            formset = formset_factory(FormsetForm, extra=extra)
-        else:
-            extra = int(float(request.POST['extra']))
-            form = QtyForm(request.POST)
-            formset = formset_factory(FormsetForm, extra=extra)(request.POST)
-
-            if form.is_valid() and formset.is_valid():
-                if request.POST['action'] == "Create":
-                    for form_c in formset:
-                        if not form_c.cleaned_data['delete']:
-                            pass
-                elif request.POST['action'] == "Edit":
-                    for form_c in formset:
-                        if form_c.cleaned_data['delete']:
-                            pass
-                        else:
-                            pass
-                return HttpResponseRedirect('abm_usuarios')
-    form = QtyForm()
-    extra = 1
-    formset = formset_factory(FormsetForm, extra=extra)
-
-    return render(request, 'home/makebill4.html', {'formset': formset, 'form': form})
-
-# def makebill(request):
-#     if request.method == "POST":
-#         pass
-#     #     q_form = QtyForm(request.POST)
-#     #     form = BillForm(request.POST)
-#     #     if q_form.is_valid() and form.is_valid():
-#     #         p = form.cleaned_data['name']
-#     #         q = q_form.cleaned_data['value']
-#     #         print(p,q)
-#     # data = Product.objects.all().order_by('name')
-#     # q_form=QtyForm()
-#     # form = BillForm(data_list=data)
-#     return render(request, 'home/makebill3.html')
+        qty=request.POST.get('qty')
+        p = Product.objects.get(id=pk)
+        p.qty = p.qty + int(qty)
+        p.save()
+    return redirect('home:product-list')
 
 
 def makebill(request):
+    if request.method == "POST":
+        cart = request.POST.get('cart')
+        price = request.POST.get('price')
+        n = request.POST.get('name')
+        phone = request.POST.get('phone')
+        data = json.loads(cart)
+        for c in data:
+            name = c['name']
+            qty = c['qty']
+            prod = Product.objects.get(name=name)
+            prod.qty = prod.qty - int(qty)
+            if prod.qty <= 0:
+                messages.warning(request, f'{prod.name} has finished')
+                prod.delete()
+            else:
+                prod.save()
+        p= Sales(items_json=cart, amount=price, name=n, phone=phone)
+        p.save()
+        total = price
     product = Product.objects.all().order_by('name')
     product_list = list(product.values('name', 'cost'))
+
     context = {}
     context["product"] = json.dumps(product_list)
+    try:
+        context["total"] = total
+    except:
+        pass
     return render(request, 'makebill.html', context)
-
-
-# class ProductCreate(generic.CreateView):
-#     model = Product
-#     form_class = FormForm
-#     template_name = 'home/product.html'
-#     def form_valid(self, form):
-#         name = form.cleaned_data['name']
-#         company = form.cleaned_data['company']
-#         subcheck = Company.objects.filter(name=company)
-#         if not subcheck:
-#             Company.objects.create(name=company)
-#         subchecks = Product.objects.filter(name=name)
-#         if subcheck:
-#             messages.error(
-#                 self.request, 'Alreay this product has included to the list.!')
-#             return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
-#         messages.success(self.request, 'Successfully Created A product')
-#         return super(ProductCreate, self).form_valid(form)
-
-#     def get_success_url(self):
-#         return reverse_lazy('home:create')
+from .forms import ProductForm
+class EditProdView(generic.UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'home/product.html'
+    def get_success_url(self):
+        id = self.kwargs['pk']
+        return reverse_lazy('home:product-list')

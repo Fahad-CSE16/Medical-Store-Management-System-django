@@ -3,126 +3,104 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% if user.is_authenticated %}
-<div class="col-md-6 offset-md-3">
-    <fieldset>
-        <center><b>LIST OF STOCKS</b></center>
-
-        <CENTER>
-            <font color="red" size="2" face="arial"><b></b></font>
-        </CENTER><br /><br />
-        <font size="2" face="arial" color="BLACK"><b></b></font>
-        <p>
-        <table  border="1" width="100%"  bordercolor="#ffffff">
-            <tr bgcolor="WHITE" height="35px">
-
-                <table width="700" border="0" cellspacing="0" cellpadding="0">
-
-                    <tr>
-
-                        <td bgcolor="#0099FF">
-                            <div align="center"><strong><span>VIEW STOCK DETAILS </span></strong></div>
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td align="center">
-                            <table width="100%" border="" cellspacing="" cellpadding="1">
-
-                                <tr>
-                                    <td width="200px"><strong>ID </strong></td>
-                                    <td width="200"><strong>Batch_no </strong></td>
-                                    <td width="200"><strong>Product_Name</strong></td>
-                                    <td width="auto"><strong>Company_Name </strong></td>
-                                    <td width="auto"><strong>Cost </strong></td>
-                                    <td width="auto"><strong>Selling Price </strong></td>
-                                    <td width="auto"><strong>Manufacturing Date </strong></td>
-                                    <td width="auto"><strong>Expiry_Date </strong></td>
-                                    <td width="auto"><strong>Supplier_Name </strong></td>
-                                    <td width="auto"><strong>Available Quantity </strong></td>
-                                    <td width="auto"><strong>ADD Quantity </strong></td>
-                                    <td width="auto"><strong>Delete </strong></td>
-
-
-                                </tr>
-                        </td>
-                    </tr>
-{% for p in products %}
-                    <tr>
-                        <td>{{p.id}}</td>
-                        <td>{{p.batch_no}}</td>
-                        <td>{{p.name}}</td>
-                        <td>{{p.company}}</td>
-                        <td>{{p.cost}}</td>
-                        <td>{{p.selling_price}}</td>
-                        <td>{{p.mfg}}</td>
-                        <td>{{p.exp}}</td>
-                        <td>{{p.supplier}}</td>
-                        <td>{{p.qty}}</td>
-
-                        <td> <a href="{% url 'home:add' pk=p.id %}" >Add Quantity</a></td>
-                        <td> <a href="{% url 'home:delete' pk=p.id %}">Delete</a></td>
-{% endfor %}
-                </table>
-
-                </p>
-
-                <?php
-
-
-?>
-        </table>
-        </tbody>
-    </fieldset>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<div class="container-fluid">
+<div class="col-md-9 offset-md-1">
+<h3 class="text-center">List Of Stocks</h3>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Batch No</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Company Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">Selling Price</th>
+      <th scope="col">MFG</th>
+      <th scope="col">EXP</th>
+      <th scope="col">Available</th>
+      <th scope="col">Supplier</th>
+      <th scope="col">ADD</th>
+      <th scope="col">DELETE</th>
+      <th scope="col">Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for p in products %}
+    <tr>
+      <th scope="row">{{p.id}}</th>
+      <td>{{p.batch_no}}</td>
+      <td>{{p.name}}</td>
+      <td>{{p.company}}</td>
+      <td>{{p.cost}} TK/ps</td>
+      <td>{{p.selling_price}} TK/ps</td>
+      <td>{{p.mfg}}</td>
+      <td>{{p.exp}}</td>
+      <td>{{p.qty}}</td>
+      <td>{{p.supplier}}</td>
+      <td> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1">
+  ADD Quantitiy
+</button></td>
+      <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Delete
+</button></td>
+      <td><button  class="btn btn-primary"> <a href="/edit/{{p.id}}/">Edit</a></button></td>
+<!-- Modal -->
+<div class="modal fade"  id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog  modal-dialog-centered">
+    <div class="modal-content" style="background:none; border: 2px solid green;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">DELETE</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+       Are You Sure to delete {{p.name}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary"><a href="{% url 'home:delete' id=p.id %}">Delete</a></button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade"  id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog  modal-dialog-centered">
+    <div class="modal-content" style="background:none; border: 2px solid green;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">ADD Available Quantitiy</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+       <form method="post" action="/add/{{p.id}}/" enctype="multipart/form-data" >
+            {% csrf_token %}
+            <fieldset class="form-group mx-auto">
+                <legend class="border-bottom text-center mb-4"><h2>Add Quantitiy in {{p.name}}</h2></legend>
+                <input type="text" name="qty">
+            </fieldset>
+            <button class="btn btn-outline-info " type="submit" value="submit">Add</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+      {% comment %} <td><a href="{% url 'home:delete' pk=p.id %}">Delete</a></td> {% endcomment %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
 </div>
 {% else %}
 <h2>Please Log in to Create a Post</h2>
 {% endif %}
-{% endblock body %}
+{% endblock %}
 {% block css %}
-textarea.form-control {
-height: auto;
-width:100%;
-color:white;
-background: none;
-}
-.col-md-6{
-color:white;
-}
 
 {% endblock  %}
